@@ -182,9 +182,9 @@ cJSON *get_problems(int is_root_user)
 
     while (user_data)
     {
-        int64_t target_chat_id = strtoll(user_data->string, NULL, 10);
+        int64_t chat_id = strtoll(user_data->string, NULL, 10);
 
-        if (get_ban_state(target_chat_id))
+        if (get_ban_state(chat_id))
         {
             user_data = user_data->next;
             continue;
@@ -194,26 +194,21 @@ cJSON *get_problems(int is_root_user)
 
         if (problem)
         {
-            const char *problem_text = cJSON_GetStringValue(cJSON_GetObjectItem(problem, "text"));
-            time_t problem_time = cJSON_GetNumberValue(cJSON_GetObjectItem(problem, "time"));
-            char time_buffer[32];
-            strftime(time_buffer, sizeof(time_buffer), "%Y-%m-%d в %H:%M", localtime(&problem_time));
+            const char *problem_string = cJSON_GetStringValue(cJSON_GetObjectItem(problem, "text"));
 
-            if (is_root_user)
-            {
-                int length = snprintf(NULL, 0, "%s\n\n(%" PRId64 ") %s", time_buffer, target_chat_id, problem_text ? problem_text : "");
-                char *problem_with_chat_id = (char *)malloc(length + 1);
-                sprintf(problem_with_chat_id, "%s\n\n(%" PRId64 ") %s", time_buffer, target_chat_id, problem_text ? problem_text : "");
-                cJSON_AddItemToArray(problems, cJSON_CreateString(problem_with_chat_id));
-                free(problem_with_chat_id);
-            }
+            if (!is_root_user)
+                cJSON_AddItemToArray(problems, cJSON_CreateString(problem_string));
             else
             {
-                int length = snprintf(NULL, 0, "%s\n\n%s", time_buffer, problem_text ? problem_text : "");
-                char *problem_without_chat_id = (char *)malloc(length + 1);
-                sprintf(problem_without_chat_id, "%s\n\n%s", time_buffer, problem_text ? problem_text : "");
-                cJSON_AddItemToArray(problems, cJSON_CreateString(problem_without_chat_id));
-                free(problem_without_chat_id);
+                int length = snprintf(NULL, 0, "(%" PRId64 ") %s", chat_id, problem_string);
+                char *chat_id_with_problem = malloc(length + 1);
+
+                if (!chat_id_with_problem)
+                    die("Fatal: data.c: get_problems(): chat_id_with_problem is NULL");
+
+                sprintf(chat_id_with_problem, "(%" PRId64 ") %s", chat_id, problem_string);
+                cJSON_AddItemToArray(problems, cJSON_CreateString(chat_id_with_problem));
+                free(chat_id_with_problem);
             }
         }
 
@@ -232,9 +227,9 @@ cJSON *get_banned_problems()
 
     while (user_data)
     {
-        int64_t target_chat_id = strtoll(user_data->string, NULL, 10);
+        int64_t chat_id = strtoll(user_data->string, NULL, 10);
 
-        if (!get_ban_state(target_chat_id))
+        if (!get_ban_state(chat_id))
         {
             user_data = user_data->next;
             continue;
@@ -244,16 +239,12 @@ cJSON *get_banned_problems()
 
         if (problem)
         {
-            const char *problem_text = cJSON_GetStringValue(cJSON_GetObjectItem(problem, "text"));
-            time_t problem_time = cJSON_GetNumberValue(cJSON_GetObjectItem(problem, "time"));
-            char time_buffer[32];
-            strftime(time_buffer, sizeof(time_buffer), "%Y-%m-%d в %H:%M", localtime(&problem_time));
-            char *problem_with_chat_id = NULL;
-            int length = snprintf(NULL, 0, "%s\n\n(%" PRId64 ") %s", time_buffer, target_chat_id, problem_text ? problem_text : "");
-            problem_with_chat_id = (char *)malloc(length + 1);
-            sprintf(problem_with_chat_id, "%s\n\n(%" PRId64 ") %s", time_buffer, target_chat_id, problem_text ? problem_text : "");
-            cJSON_AddItemToArray(problems, cJSON_CreateString(problem_with_chat_id));
-            free(problem_with_chat_id);
+            const char *problem_string = cJSON_GetStringValue(cJSON_GetObjectItem(problem, "text"));
+            int length = snprintf(NULL, 0, "(%" PRId64 ") %s", chat_id, problem_string);
+            char *chat_id_with_problem = malloc(length + 1);
+            sprintf(chat_id_with_problem, "(%" PRId64 ") %s", chat_id, problem_string);
+            cJSON_AddItemToArray(problems, cJSON_CreateString(chat_id_with_problem));
+            free(chat_id_with_problem);
         }
 
         user_data = user_data->next;
