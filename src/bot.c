@@ -35,7 +35,7 @@ void start_bot(void)
                     int64_t chat_id = strtoll(cJSON_GetStringValue(outdated_problem_chat_id), NULL, 10);
                     delete_problem(chat_id);
                     send_message(chat_id,
-                                 EMOJI_ATTENTION " Извините, ваша проблема привысила временной лимит хранения и была удалена\n"
+                                 EMOJI_ATTENTION " Извините, ваша проблема привысила временной лимит хранения и была удалена\n\n"
                                  "Если вам всё ещё нужна помощь, пожалуйста, продублируйте вашу проблему!");
                     send_message_with_current_keyboard(chat_id, EMOJI_BACK " Возвращаю вас в меню");
                 }
@@ -108,7 +108,7 @@ void start_bot(void)
                         save_problem(chat_id, username_with_problem);
                         set_problem_description_state(chat_id, 0);
                         send_message(chat_id,
-                                     EMOJI_OK " Ваша проблема сохранена и будет автоматически удалена через 30 секунд\n"
+                                     EMOJI_OK " Ваша проблема сохранена и будет автоматически удалена через 30 секунд\n\n"
                                      "Надеюсь вам помогут как можно быстрее!");
                         send_message_with_current_keyboard(chat_id, EMOJI_BACK " Возвращаю вас в меню");
                         free(username_with_problem);
@@ -366,7 +366,7 @@ void start_bot(void)
                     {
                         delete_problem(chat_id);
                         send_message(chat_id,
-                                     EMOJI_OK " Ваша проблема закрыта\n"
+                                     EMOJI_OK " Ваша проблема закрыта\n\n"
                                      "Я очень рад, что вам смогли помочь!");
                         send_message_with_current_keyboard(chat_id, EMOJI_BACK " Возвращаю вас в меню");
                     }
