@@ -1,3 +1,4 @@
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -6,13 +7,21 @@
 #include "die.h"
 #include "bot.h"
 
+static void handle_signal(int signal);
 static void daemonize(void);
 
 int main(void)
 {
+    signal(SIGSEGV, handle_signal);
     daemonize();
     start_bot();
     return 0;
+}
+
+static void handle_signal(int signal)
+{
+    (void) signal;
+    die("Fatal: segmentation fault\n");
 }
 
 static void daemonize(void)
