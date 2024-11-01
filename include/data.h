@@ -1,7 +1,8 @@
 #ifndef DATA_H
     #define DATA_H
 
-    #define DATA_FILE_PATH "/var/lib/hok-daemon/data.json"
+    #define DATA_FILE_PATH      "/var/lib/hok-daemon/data.json"
+    #define MAX_PROBLEM_SECONDS 30
 
     #include <stdint.h>
     #include <cjson/cJSON.h>

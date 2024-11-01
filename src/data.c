@@ -277,7 +277,7 @@ cJSON *get_outdated_problems_chat_ids()
             time_t current_time = time(NULL);
             time_t problem_time = cJSON_GetNumberValue(cJSON_GetObjectItem(problem, "time"));
 
-            if (difftime(current_time, problem_time) > 30)
+            if (difftime(current_time, problem_time) > MAX_PROBLEM_SECONDS)
                 cJSON_AddItemToArray(outdated_problems_chat_ids, cJSON_CreateString(user_data->string));
 
         }
