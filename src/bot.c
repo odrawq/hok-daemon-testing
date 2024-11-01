@@ -105,7 +105,7 @@ void start_bot()
                         strcat(username_with_problem, text->valuestring);
                         save_problem(chat_id, username_with_problem);
                         set_problem_description_state(chat_id, 0);
-                        send_message(chat_id, EMOJI_OK " Ваша проблема сохранена\nНадеюсь вам помогут как можно быстрее!");
+                        send_message(chat_id, EMOJI_OK " Ваша проблема сохранена и будет автоматически удалена через 30 секунд\nНадеюсь вам помогут как можно быстрее!");
                         send_message_with_current_keyboard(chat_id, EMOJI_BACK " Возвращаю вас в меню");
                         free(username_with_problem);
                     }
