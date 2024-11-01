@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include "die.h"
 #include "bot.h"
 
 static void daemonize();
@@ -28,7 +29,9 @@ static void daemonize()
     if (setsid() < 0)
         exit(EXIT_FAILURE);
 
-    chdir("/");
+    if (chdir("/"))
+        die("Fatal: main.c: daemonize(): chdir() failed");
+
     close(STDIN_FILENO);
     close(STDOUT_FILENO);
     close(STDERR_FILENO);
