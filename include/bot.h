@@ -25,5 +25,5 @@
     #define KEYBOARD_DEFAULT     "{\"keyboard\":[[{\"text\":\"" COMMAND_HELPME "\"},{\"text\":\"" COMMAND_HELPSOMEONE "\"}]],\"resize_keyboard\":true}"
     #define KEYBOARD_HAVEPROBLEM "{\"keyboard\":[[{\"text\":\"" COMMAND_CLOSEPROBLEM "\"},{\"text\":\"" COMMAND_HELPSOMEONE "\"}]],\"resize_keyboard\":true}"
 
-    void start_bot();
+    void start_bot(void);
 #endif

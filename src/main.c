@@ -6,16 +6,16 @@
 #include "die.h"
 #include "bot.h"
 
-static void daemonize();
+static void daemonize(void);
 
-int main()
+int main(void)
 {
     daemonize();
     start_bot();
     return 0;
 }
 
-static void daemonize()
+static void daemonize(void)
 {
     pid_t pid;
     pid = fork();

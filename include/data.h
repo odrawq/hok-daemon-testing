@@ -15,6 +15,6 @@
     int have_problem(int64_t chat_id);
     void delete_problem(int64_t chat_id);
     cJSON *get_problems(int is_root_user);
-    cJSON *get_banned_problems();
-    cJSON *get_outdated_problems_chat_ids();
+    cJSON *get_banned_problems(void);
+    cJSON *get_outdated_problems_chat_ids(void);
 #endif

@@ -8,7 +8,7 @@
 #include "data.h"
 
 static void save_data(cJSON *data);
-static cJSON *load_data();
+static cJSON *load_data(void);
 
 void set_problem_description_state(int64_t chat_id, int state)
 {
@@ -219,7 +219,7 @@ cJSON *get_problems(int is_root_user)
     return problems;
 }
 
-cJSON *get_banned_problems()
+cJSON *get_banned_problems(void)
 {
     cJSON *data = load_data();
     cJSON *problems = cJSON_CreateArray();
@@ -254,7 +254,7 @@ cJSON *get_banned_problems()
     return problems;
 }
 
-cJSON *get_outdated_problems_chat_ids()
+cJSON *get_outdated_problems_chat_ids(void)
 {
     cJSON *data = load_data();
     cJSON *outdated_problems_chat_ids = cJSON_CreateArray();
@@ -323,7 +323,7 @@ static void save_data(cJSON *data)
     free(data_string);
 }
 
-static cJSON *load_data()
+static cJSON *load_data(void)
 {
     FILE *data_file = fopen(DATA_FILE_PATH, "r");
 

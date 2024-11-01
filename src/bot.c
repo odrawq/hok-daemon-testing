@@ -14,7 +14,7 @@ static void send_message_with_current_keyboard(int64_t chat_id, const char *mess
 /*
  * Starts the bot.
  */
-void start_bot()
+void start_bot(void)
 {
     int32_t last_update_id = 0;
 
@@ -34,7 +34,9 @@ void start_bot()
                 {
                     int64_t chat_id = strtoll(cJSON_GetStringValue(outdated_problem_chat_id), NULL, 10);
                     delete_problem(chat_id);
-                    send_message(chat_id, EMOJI_ATTENTION " Ваша проблема привысила временной лимит хранения и была удалена");
+                    send_message(chat_id,
+                                 EMOJI_ATTENTION " Извините, ваша проблема привысила временной лимит хранения и была удалена\n"
+                                 "Если вам всё ещё нужна помощь, пожалуйста, продублируйте вашу проблему!");
                     send_message_with_current_keyboard(chat_id, EMOJI_BACK " Возвращаю вас в меню");
                 }
             }
@@ -105,7 +107,9 @@ void start_bot()
                         strcat(username_with_problem, text->valuestring);
                         save_problem(chat_id, username_with_problem);
                         set_problem_description_state(chat_id, 0);
-                        send_message(chat_id, EMOJI_OK " Ваша проблема сохранена и будет автоматически удалена через 30 секунд\nНадеюсь вам помогут как можно быстрее!");
+                        send_message(chat_id,
+                                     EMOJI_OK " Ваша проблема сохранена и будет автоматически удалена через 30 секунд\n"
+                                     "Надеюсь вам помогут как можно быстрее!");
                         send_message_with_current_keyboard(chat_id, EMOJI_BACK " Возвращаю вас в меню");
                         free(username_with_problem);
                     }
@@ -361,7 +365,9 @@ void start_bot()
                     else
                     {
                         delete_problem(chat_id);
-                        send_message(chat_id, EMOJI_OK " Ваша проблема закрыта\nЯ очень рад, что вам смогли помочь!");
+                        send_message(chat_id,
+                                     EMOJI_OK " Ваша проблема закрыта\n"
+                                     "Я очень рад, что вам смогли помочь!");
                         send_message_with_current_keyboard(chat_id, EMOJI_BACK " Возвращаю вас в меню");
                     }
                 }
